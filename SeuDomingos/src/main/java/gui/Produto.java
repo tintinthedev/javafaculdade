@@ -5,6 +5,7 @@
 package gui;
 
 import db.OperacoesDb;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,12 +14,14 @@ import db.OperacoesDb;
 public class Produto extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Produto.class.getName());
+    private Produtos telaProdutos;
 
     /**
      * Creates new form Produto
      */
-    public Produto() {
+    public Produto(Produtos telaProdutos) {
         initComponents();
+        this.telaProdutos = telaProdutos;
     }
 
     /**
@@ -35,7 +38,7 @@ public class Produto extends javax.swing.JFrame {
         jTextField3 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jTextField1.setText("Nome do produto");
 
@@ -87,6 +90,13 @@ public class Produto extends javax.swing.JFrame {
         String quantidade = jTextField3.getText();
         
         OperacoesDb.inserirProduto(nome, preco, quantidade);
+        
+        JOptionPane.showMessageDialog(this,
+                    "Produto cadastrado com sucesso!",
+                    "Sucesso",
+                    JOptionPane.INFORMATION_MESSAGE);
+        
+        this.telaProdutos.recarregarLista();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -111,7 +121,7 @@ public class Produto extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Produto().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new Produto(null).setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

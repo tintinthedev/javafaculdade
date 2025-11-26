@@ -77,12 +77,29 @@ private JPanel criarBoxProduto(ProdutoDTO p) {
     return box;
 }
 
-private void abrirTelaProduto(ProdutoDTO p) {
-    DetalheProduto tela = new DetalheProduto(p); 
-    System.out.println("dsadsdsadsafdasykmnbujkj");
-    System.out.println(p);
-    tela.setVisible(true);
-}
+    public void recarregarLista() {
+        jPanelProdutos.removeAll();
+
+        JPanel painelPrincipal = new JPanel();
+        painelPrincipal.setLayout(new BoxLayout(painelPrincipal, BoxLayout.Y_AXIS));
+
+        JScrollPane scroll = new JScrollPane(painelPrincipal);
+        jPanelProdutos.setLayout(new BorderLayout());
+        jPanelProdutos.add(scroll, BorderLayout.CENTER);
+
+        List<ProdutoDTO> produtos = OperacoesDb.listarProdutos();
+        for (ProdutoDTO p : produtos) {
+            painelPrincipal.add(criarBoxProduto(p));
+        }
+
+        jPanelProdutos.revalidate();
+        jPanelProdutos.repaint();
+    }
+
+    private void abrirTelaProduto(ProdutoDTO p) {
+        DetalheProduto tela = new DetalheProduto(p, this); 
+        tela.setVisible(true);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -96,7 +113,7 @@ private void abrirTelaProduto(ProdutoDTO p) {
         jButton1 = new javax.swing.JButton();
         jPanelProdutos = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jButton1.setText("Adicionar produto");
         jButton1.addActionListener(this::jButton1ActionPerformed);
@@ -140,7 +157,7 @@ private void abrirTelaProduto(ProdutoDTO p) {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        Produto p = new Produto();
+        Produto p = new Produto(this);
         p.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 

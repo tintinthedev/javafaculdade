@@ -7,6 +7,7 @@ package gui;
 import db.OperacoesDb;
 import db.ProdutoDTO;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -25,13 +26,17 @@ public class DetalheProduto extends javax.swing.JFrame {
     private JTextField precoField;
     private JTextField quantidadeField;
     private JButton salvarButton;
+    
+    private Produtos telaProdutos;
 
     /**
      * Creates new form DetalheProduto
      */
-    public DetalheProduto(ProdutoDTO p) {
+    public DetalheProduto(ProdutoDTO p, Produtos telaProdutos) {
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.produto = p;
         initiMyComponents();
+        this.telaProdutos = telaProdutos;
         preencherCampos();
     }
     
@@ -42,12 +47,12 @@ public class DetalheProduto extends javax.swing.JFrame {
     }
     
     private void initiMyComponents() {
-         nomeField = new JTextField();
+        nomeField = new JTextField();
         precoField = new JTextField();
         quantidadeField = new JTextField();
         salvarButton = new JButton("Salvar alterações");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         salvarButton.addActionListener(evt -> salvarAlteracoes());
 
@@ -108,7 +113,7 @@ public class DetalheProduto extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -146,7 +151,7 @@ public class DetalheProduto extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new DetalheProduto(new ProdutoDTO(1, "teste", 1, 1)).setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new DetalheProduto(new ProdutoDTO(1, "teste", 1, 1), null).setVisible(true));
     }
     
         private void salvarAlteracoes() {
@@ -170,6 +175,8 @@ public class DetalheProduto extends javax.swing.JFrame {
             );
 
             JOptionPane.showMessageDialog(this, "Produto atualizado com sucesso!");
+            
+            this.telaProdutos.recarregarLista();
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro ao atualizar: " + e.getMessage());
